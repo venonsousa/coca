@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Anime Restaurado</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Mrs+Saint+Delafield&family=Love+Light&family=Quicksand:wght@400;600&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        @keyframes rippleEffect { 0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; } }
+        @keyframes autoZoomSlow { 0%, 100% { transform: scale(1.1); } 50% { transform: scale(1.2); } }
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes heartBeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.15); } 28% { transform: scale(1); } 42% { transform: scale(1.15); } }
+        @keyframes heartCascade { 
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; } 
+            10% { opacity: 0.3; } 
+            90% { opacity: 0.3; } 
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
+        }
+        @keyframes breathingZoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+        .ripple-ring { animation: rippleEffect 0.6s ease-out forwards; position: fixed; pointer-events: none; border: 2px solid #FF89A2; border-radius: 50%; width: 24px; height: 24px; z-index: 9999; }
+        .animate-auto-zoom { animation: autoZoomSlow 15s ease-in-out infinite; }
+        .animate-spin-slow { animation: spinSlow 20s linear infinite; }
+        .animate-shake { animation: shake 0.2s ease-in-out 0s 2; }
+        .animate-heartbeat { animation: heartBeat 1.2s infinite; }
+        .animate-heart-cascade { animation: heartCascade linear infinite; position: absolute; top: -50px; }
+        .animate-breathing { animation: breathingZoom 3s ease-in-out infinite; display: inline-block; }
+
+        .font-amore { font-family: 'Pinyon Script', 'Mrs Saint Delafield', cursive; }
+        .font-msg { font-family: 'Quicksand', sans-serif; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #ff89a2; border-radius: 10px; }
+        
+        body { 
+            background-color: #050505; 
+            color: white; 
+            overflow: hidden; 
+            margin: 0; 
+            height: 100vh; 
+            width: 100vw; 
+            font-family: sans-serif;
+            display: flex;
+            align-items: center; 
+            justify-content: center;
+        }
+        
+        #main-image-container img { transition: transform 0.4s ease-out; }
+        audio { display: none; }
+        
+        #wallpaper {
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            transition: opacity 0.5s ease-in-out, background-image 0.8s ease-in-out;
+        }
+
+        .opacity-dot {
+            width: 6px;
+            height: 4px;
+            border-radius: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .opacity-dot.active {
+            background: #ff89a2;
+            box-shadow: 0 0 5px #ff89a2;
+        }
+
+        #heart-cascade-container {
+            transition: opacity 2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="select-none">
+
+    <!-- WALLPAPER -->
+    <div id="wallpaper" class="fixed inset-0 z-0 pointer-events-none bg-cover bg-center opacity-[0.40]" style="background-image: url('https://xatimg.com/image/38c2BtK9XY3t.png');"></div>
+
+    <!-- CASCADA DE CORAZONES -->
+    <div id="heart-cascade-container" class="fixed inset-0 pointer-events-none z-[100] overflow-hidden opacity-0 hidden"></div>
+
+    <!-- AUDIO -->
+    <audio id="bg-audio" loop>
+        <source src="https://www.dropbox.com/scl/fi/63xu22zndkz5y3i18eo5s/Chord-Overstreet-Hold-On.mp3?rlkey=hcqsagn4bcj6dfxqjor3a0ol3&st=hncse85n&raw=1" type="audio/mpeg">
+    </audio>
+
+    <!-- UI PRINCIPAL -->
+    <div class="max-w-[1400px] w-full h-[85vh] flex flex-row gap-4 relative z-10 items-end p-2 md:p-4">
+        
+        <!-- WIDGETS IZQUIERDA -->
+        <div class="flex flex-col items-center gap-3 w-[80px] h-full shrink-0 justify-end pb-8">
+            <!-- Foto Married Decorativa -->
+            <div id="ring-married-decor" class="w-20 h-20 relative flex items-center justify-center mb-1 group">
+                <div class="absolute inset-0 flex items-center justify-center animate-spin-slow pointer-events-none">
+                   <div id="heart-ring-1" class="relative w-full h-full flex items-center justify-center"></div>
+                </div>
+                <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-transparent bg-[#111]/30 shadow-xl relative z-10">
+                    <img src="https://xatimg.com/image/I95vTaMO4j8f.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform" alt="Imagen Casados">
+                </div>
+            </div>
+
+            <!-- Foto Galería Decorativa -->
+            <div id="ring-galeria-decor" class="w-20 h-20 relative flex items-center justify-center mb-1 group">
+                <div class="absolute inset-0 flex items-center justify-center animate-spin-slow pointer-events-none" style="animation-direction: reverse;">
+                    <div id="heart-ring-2" class="relative w-full h-full flex items-center justify-center"></div>
+                </div>
+                <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-transparent bg-[#111]/30 shadow-xl relative z-10">
+                    <img src="https://xatimg.com/image/thpx0MdSPb1C.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform" alt="Imagen Galería">
+                </div>
+            </div>
+
+            <div class="w-full py-4 bg-[#111]/30 backdrop-blur-md rounded-full flex flex-col items-center gap-4 border border-white/5 shadow-2xl">
+                <div class="flex flex-col gap-3 items-center">
+                    <!-- Label Married con Link -->
+                    <div onclick="window.open('https://xat.me/xTakis', '_blank')" class="flex flex-col items-center group cursor-pointer">
+                        <i data-lucide="heart" class="w-4 h-4 fill-white hover:scale-110 transition-transform animate-breathing"></i>
+                        <span id="label-married" class="text-[7px] font-bold text-[#ff89a2] uppercase mt-1">Married</span>
+                    </div>
+                    <!-- Label Galería con Link -->
+                    <div onclick="window.open('https://www.flickr.com/photos/takisdesign/', '_blank')" class="flex flex-col items-center group cursor-pointer">
+                        <i data-lucide="heart" class="w-4 h-4 fill-white hover:scale-110 transition-transform animate-breathing"></i>
+                        <span id="label-gallery" class="text-[7px] font-bold text-[#ff89a2] uppercase mt-1">Galería</span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center gap-2 border-t border-white/5 pt-3 w-full">
+                    <button onclick="setLang('EN')" class="text-[8px] font-bold lang-btn" id="btn-en">EN</button>
+                    <button onclick="setLang('ES')" class="text-[8px] font-bold lang-btn text-[#ff89a2]" id="btn-es">ES</button>
+                </div>
+                <div class="flex flex-col items-center text-[#ff89a2] mt-1 cursor-pointer hover:scale-110 transition-transform" onclick="openStats(event)" title="Ver visitas por país">
+                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                    <span id="visits-count" class="text-[9px] font-bold">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDGETS CENTRO -->
+        <div id="desktop-widgets" class="hidden lg:flex flex-col justify-end pb-8 w-[110px] shrink-0 h-full gap-4 transition-all duration-500">
+            <!-- CONTROL DE OPACIDAD HORIZONTAL -->
+            <div class="bg-[#111]/30 backdrop-blur-md rounded-full p-2 flex flex-col items-center border border-white/5 shadow-xl mb-[-8px] cursor-pointer group" onclick="adjustOpacity()" title="Ajustar Brillo Wallpaper">
+                <span class="text-[7px] text-gray-500 font-bold uppercase mb-1 tracking-tighter group-hover:text-[#ff89a2] transition-colors">Opacity</span>
+                <div class="flex gap-0.5" id="opacity-bar"></div>
+            </div>
+
+            <!-- Cápsula Fecha -->
+            <div class="bg-[#111]/30 backdrop-blur-xl rounded-[2rem] p-4 flex flex-col items-center border border-white/5 shadow-xl">
+                <span id="cal-day" class="text-4xl font-light leading-none animate-breathing">--</span>
+                <span id="cal-month" class="text-[9px] font-bold text-[#ff89a2] tracking-widest uppercase">---</span>
+            </div>
+            
+            <!-- Cápsula Controles -->
+            <div class="h-[210px] bg-[#111]/30 backdrop-blur-xl rounded-[2.5rem] flex flex-col items-center justify-between py-5 border border-white/5 shadow-xl">
+                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center relative shadow-inner group overflow-hidden">
+                    <i data-lucide="heart" class="w-6 h-6 text-[#d53053] animate-heartbeat fill-[#d53053]" id="fill-heart-icon"></i>
+                    <div class="absolute inset-0 bg-white/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span id="fill-percent" class="text-[9px] font-black text-[#ff89a2]">0%</span>
+                    </div>
+                </div>
+                <div class="text-center px-1">
+                    <span id="days-passed" class="text-[11px] font-black block tracking-tighter uppercase">0 DÍAS</span>
+                    <span id="days-left-msg" class="text-[8px] font-bold text-[#ff89a2] uppercase leading-none">Cargando...</span>
+                </div>
+                <button id="play-btn" onclick="togglePlay(event)" class="w-8 h-8 rounded-full bg-white text-[#ff89a2] flex items-center justify-center shadow-lg active:scale-90 transition-all">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-[#ff89a2]"></i>
+                </button>
+                <!-- Botón Flecha Cascada -->
+                <button id="toggle-cascade" onclick="toggleCascade()" class="w-9 h-9 rounded-full bg-[#ff89a2]/70 text-white flex items-center justify-center shadow-md active:scale-90 transition-all">
+                    <i data-lucide="arrow-up" class="w-4 h-4" id="cascade-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="flex-1 flex flex-row gap-4 h-full items-end pb-2 overflow-hidden">
+            <div class="flex-[1.8] flex flex-col items-center h-full min-w-0">
+                <div class="flex flex-col items-center w-full shrink-0">
+                    <h1 class="text-5xl md:text-6xl font-amore text-white tracking-widest mb-3 drop-shadow-[0_0_10px_rgba(255,137,162,0.3)] text-center">`Coquita~</h1>
+                    <div class="z-[50] bg-[#111]/30 backdrop-blur-lg px-8 py-2.5 rounded-full flex items-center gap-10 border border-white/10 shadow-xl mb-6">
+                        <button onclick="setTab('INICIO')" id="tab-INICIO" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all bg-[#ff89a2]/70 text-white uppercase">INICIO</button>
+                        <button onclick="setTab('CARRETE')" id="tab-CARRETE" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all text-gray-400 hover:text-white uppercase">CARRETE</button>
+                        <button onclick="setTab('RECUERDOS')" id="tab-RECUERDOS" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all text-gray-400 hover:text-white uppercase">RECUERDOS</button>
+                    </div>
+                </div>
+
+                <div id="main-content-window" class="w-full flex-1 relative rounded-[3rem] overflow-hidden bg-[#111]/50 shadow-2xl border border-white/5 group mb-8">
+                    <div id="view-INICIO" class="w-full h-full cursor-grab active:cursor-grabbing relative overflow-hidden">
+                        <img src="https://xatimg.com/image/38c2BtK9XY3t.png" class="w-full h-full object-cover animate-auto-zoom" id="draggable-img" alt="Imagen Principal Anime">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <div id="view-CARRETE" class="w-full h-full py-10 flex justify-center bg-[#0a0a0a]/50 hidden">
+                        <div class="w-[92%] h-full overflow-y-auto custom-scrollbar pr-4">
+                            <div class="columns-3 gap-6 space-y-6 pb-6" id="carrete-grid"></div>
+                        </div>
+                    </div>
+
+                    <div id="view-RECUERDOS" class="w-full h-full py-10 flex justify-center bg-[#0a0a0a]/50 hidden">
+                        <div class="w-[92%] h-full overflow-y-auto custom-scrollbar pr-4">
+                            <div class="columns-2 gap-8 space-y-8 pb-6" id="recuerdos-grid"></div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 rounded-[3rem] pointer-events-none z-[60] ring-[1px] ring-inset ring-[#ff89a2]/40"></div>
+                </div>
+
+                <div class="flex flex-col items-center pointer-events-none opacity-40 pb-2 shrink-0">
+                    <span class="text-[10px] text-gray-400 tracking-[0.2em] uppercase">тaкιѕ™ DESIGN</span>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col gap-4 h-full justify-end min-w-[320px] pb-8">
+                <div class="flex-[1.2] bg-[#111]/50 backdrop-blur-xl rounded-[2.5rem] border border-white/5 shadow-2xl flex flex-col overflow-hidden relative">
+                    <div class="px-6 py-3 border-b border-white/5 flex items-center justify-center bg-white/5 shrink-0">
+                        <span id="label-dedication" class="text-[10px] font-bold tracking-[0.4em] text-[#ff89a2] uppercase">Dedicatoria</span>
+                    </div>
+                    <div class="flex-1 overflow-y-auto custom-scrollbar p-6 flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-[#ff89a2]/30 mb-4 transition-transform duration-300 hover:scale-110 active:scale-105 cursor-pointer shadow-lg shrink-0">
+                            <img src="https://xatimg.com/image/WJS8j7bIDf7e.jpg" class="w-full h-full object-cover" alt="Perfil Dedicatoria">
+                        </div>
+                        <p class="text-[14px] font-msg leading-relaxed text-gray-200 italic text-center whitespace-pre-wrap flex-1" id="dedication-text"></p>
+                        
+                        <!-- GIF Dedicatoria -->
+                        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-[#ff89a2]/20 mt-4 mb-2 shadow-lg shrink-0 transition-transform hover:scale-110">
+                            <img src="https://xatimg.com/image/Wl6hHPYZ0rIN.gif" class="w-full h-full object-cover" alt="Dedication GIF">
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-white/5 text-center shrink-0 w-full">
+                            <span id="dedication-footer" class="text-[#ff89a2] font-bold tracking-[0.4em] text-[10px] uppercase block drop-shadow-[0_0_5px_rgba(255,137,162,0.3)]">Atte: Tu Takito ♡</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 h-[90px]">
+                    <!-- BOTÓN WALLPAPERS ACTUALIZADO CON COLOR #a2ffe8 -->
+                    <div onclick="cycleWallpapers(event)" class="flex-1 bg-[#111]/30 backdrop-blur-xl rounded-[2rem] border border-white/5 shadow-2xl flex items-center justify-center overflow-hidden relative cursor-pointer group hover:bg-[#111]/50 transition-all">
+                        <div class="flex flex-col items-center gap-1 relative z-10">
+                            <div class="w-16 h-16 relative flex items-center justify-center mb-[-5px] scale-90">
+                                <div class="absolute inset-0 flex items-center justify-center animate-spin-slow pointer-events-none">
+                                    <div id="heart-ring-wallpapers" class="relative w-full h-full flex items-center justify-center"></div>
+                                </div>
+                                <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#a2ffe8]/30 group-hover:scale-110 transition-transform bg-[#111]/30 shadow-lg relative z-10">
+                                    <img src="https://xatimg.com/image/THHBIuLHGJes.gif" class="w-full h-full object-cover" alt="Wallpaper GIF">
+                                </div>
+                            </div>
+                            <span id="btn-wallpapers-label" class="text-[8px] font-bold tracking-[0.2em] uppercase text-[#ff89a2]">Wallpapers 1</span>
+                        </div>
+                    </div>
+
+                    <div onclick="toggleViewMode(event)" class="flex-1 bg-[#111]/30 backdrop-blur-xl rounded-[2rem] border border-white/5 shadow-2xl flex items-center justify-center overflow-hidden relative cursor-pointer group hover:bg-[#111]/50 transition-all">
+                        <div class="flex flex-col items-center gap-1 relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform text-[#ff89a2]" id="view-mode-icon">
+                                <i data-lucide="monitor" class="w-4 h-4"></i>
+                            </div>
+                            <span id="view-mode-text" class="text-[8px] font-bold tracking-[0.3em] text-gray-400 uppercase group-hover:text-white">Modo: PC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALES Y LIGHTBOX -->
+    <div id="modal-stats" class="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center hidden">
+        <div class="bg-[#111] border border-white/10 shadow-[0_0_30px_rgba(255,137,162,0.15)] rounded-[2rem] p-6 w-80 max-w-[90vw]">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <h3 class="text-[#ff89a2] font-bold tracking-[0.2em] uppercase text-xs flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4"></i> Visitas Reales</h3>
+                <button onclick="closeStats()" class="text-gray-500 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="stats-list" class="grid grid-cols-4 gap-3 max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 py-2"></div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-10 backdrop-blur-md hidden cursor-zoom-out"><button onclick="closeLightbox()" class="absolute top-6 right-6 z-[210] text-[#ff80a2]"><i data-lucide="x" class="w-10 h-10"></i></button><div class="relative flex items-center justify-center w-full h-full max-w-[90vw] max-h-[75vh]"><img id="lightbox-img" src="" class="max-w-full max-h-full rounded-2xl shadow-[0_0_80px_rgba(255,128,162,0.15)] object-contain border border-white/10 select-none cursor-default"></div></div>
+
+    <!-- LOGIC -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, doc, setDoc, updateDoc, onSnapshot, getDoc, increment, collection, addDoc, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
+        const wallpapersList = [
+            "https://xatimg.com/image/38c2BtK9XY3t.png",
+            "https://xatimg.com/image/I62SoNe3FKI1.png",
+            "https://xatimg.com/image/Xj6V68pPrHDu.jpg",
+            "https://xatimg.com/image/eyBxCIJv5q3V.png",
+            "https://xatimg.com/image/Bi999koLPpMJ.jpg"
+        ];
+
+        const translations = {
+            ES: {
+                tabInicio: "INICIO", tabCarrete: "CARRETE", tabRecuerdos: "RECUERDOS",
+                labelMarried: "Married", labelGallery: "Galería", labelDedication: "Dedicatoria",
+                labelDedicationFooter: "Atte: Tu Takito ♡", btnWallpapers: "Wallpapers", btnMode: "Modo: ", pc: "PC", mobile: "Móvil",
+                days: "DÍAS", loading: "Cargando...", today: "¡Hoy es el 03!", left: "Faltan ",
+                months: ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'],
+                dedication: `Hola mi amoooooor, la verdad es que moría por hacerte saber una vez más cuan importante eres para mí asi que voy a ser honesto contigo: no sé en qué momento te volviste tan importante para mí. Según yo todo iba tranquilo, normal… y de repente ya ando pensando en ti a cada rato, sonriendo como tonto cuando me acuerdo de algo que dijiste, y hasta extrañándote aunque hayan pasado cinco minutos.\n\nLa neta es que tienes algo peligroso… porque no solo me gustas, me encantas en todos los sentidos. Me gusta tu forma de ser, tu risa, tu manera de hablar… y también cómo, sin hacer mucho, logras provocarme más de lo que debería admitir… y más cuando andas en tu modo Coquita, porque ahí sí ya valí.\n\nContigo todo se siente diferente. Puedes hacer que un día normal se vuelva especial, o que yo esté de malas y en dos minutos ya me tengas riendo otra vez. Aunque también hay que decirlo… tienes un talento especial para dejarme pensando cosas que mejor ni digo en voz alta, porque luego me exhibo solo… y peor tantito cuando se me antojan tus besos como si fueran mis Takis favoritos.\n\nY sí, puede que a veces me haga el interesante… pero la verdad es que contigo se me cae todo el teatro. Me tienes bien ganado. Eres ese tipo de persona que no solo quiero para pasar el rato… sino para quedarme, para seguir compartiendo momentos, risas, y también uno que otro beso robado (o varios, si me dejas).\n\nGracias por ser tú, por aguantarme, por hacerme sentir así… y por convertirte, sin pedir permiso, en una de mis partes favoritas del día.\n\nY solo para que te quede claro… si te sigo molestando, es porque me encantas. Y si te sigo buscando… es porque contigo siempre quiero un poquito más… aunque eso incluya invitarte una Coquita y unos Takis solo para tener pretexto de verte. 🩷💚`
+            },
+            EN: {
+                tabInicio: "HOME", tabCarrete: "REEL", tabRecuerdos: "MEMORIES",
+                labelMarried: "Married", labelGallery: "Gallery", labelDedication: "Dedication",
+                labelDedicationFooter: "By: Your Takito ♡", btnWallpapers: "Wallpapers", btnMode: "Mode: ", pc: "PC", mobile: "Mobile",
+                days: "DAYS", loading: "Loading...", today: "Today is the 3rd!", left: "Left: ",
+                months: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+                dedication: `Hello my love, honestly I was dying to let you know once again how important you are to me...`
+            }
+        };
+
+        let lang = 'ES';
+        let isFirebaseActive = false;
+        let firebaseConfig = {
+            apiKey: "AIzaSyBIf4-Sls4zIk2aj6GOI_Ol9HtKGKlI_Ag",
+            authDomain: "perfilanime-8809f.firebaseapp.com",
+            projectId: "perfilanime-8809f",
+            storageBucket: "perfilanime-8809f.firebasestorage.app",
+            messagingSenderId: "162868028576",
+            appId: "1:162868028576:web:88f6276ab5c779bb6fd5c5"
+        };
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        let app, auth, db, currentUser = null;
+        let activeTab = 'INICIO';
+        let viewMode = 'DESKTOP';
+        let isPlaying = false;
+        let showHeartsOverlay = false;
+        let currentStats = {};
+        let currentWallpaperOpacity = 40; 
+        let currentWpIndex = 0;
+
+        let galleryImages = ["https://xatimg.com/image/UwVRSWfw8vEV.jpg","https://xatimg.com/image/VHwozNmivrPn.jpg","https://xatimg.com/image/v36lVpHCwLUo.jpg","https://xatimg.com/image/Kt7ybMUvDQ5S.jpg","https://xatimg.com/image/QZ6SfYUZzlHC.jpg","https://xatimg.com/image/UTbagJfZ2Tty.jpg","https://xatimg.com/image/7cnPWTHlITIX.jpg","https://xatimg.com/image/Z0cB7TZYEc36.jpg","https://xatimg.com/image/w8dRYqKWxW2X.jpg","https://xatimg.com/image/YYMWgLcTZiWv.jpg","https://xatimg.com/image/yBIuwWJo7Ykt.jpg","https://xatimg.com/image/N3Sev3WBjNiD.jpg","https://xatimg.com/image/bFY09lxUFakd.jpg","https://xatimg.com/image/iWgqaYoCtCj1.jpg","https://xatimg.com/image/0NmyyC9Q2BKJ.jpg","https://xatimg.com/image/TWYWd4JNT4Xt.jpg","https://xatimg.com/image/2MOYxojbWX64.jpg","https://xatimg.com/image/uFrBp1yCVFU9.jpg","https://xatimg.com/image/dL0FYD9TqycU.jpg","https://xatimg.com/image/a7FX96ws4Wj3.jpg","https://xatimg.com/image/KXVhmdftIvsI.jpg"];
+        let recuerdosImages = ["https://xatimg.com/image/LzhDHmlMmT9G.jpg", "https://xatimg.com/image/Mvc6zINOom5t.png", "https://xatimg.com/image/5s9mgeykvOyW.png", "https://xatimg.com/image/2BLmWSY2JAWI.png", "https://xatimg.com/image/zyqXr0yhCaCi.png"];
+
+        window.onload = async () => {
+            setLang('ES');
+            renderGrids();
+            renderHeartRings();
+            updateOpacityUI();
+            lucide.createIcons();
+
+            window.addEventListener('mousedown', startMusic);
+            window.addEventListener('touchstart', startMusic);
+            window.addEventListener('mousedown', createRipple);
+            window.addEventListener('keydown', (e) => { if(e.key.toLowerCase() === 'p') togglePlay(e); });
+
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                isFirebaseActive = true;
+                await signInAnonymously(auth);
+                onAuthStateChanged(auth, u => { currentUser = u; if(u) initFirestore(); });
+            } catch(e) { console.warn("Firebase no conectado."); }
+            setupDrag();
+        };
+
+        window.cycleWallpapers = (e) => {
+            if(e) e.stopPropagation();
+            currentWpIndex = (currentWpIndex + 1) % wallpapersList.length;
+            const wpUrl = wallpapersList[currentWpIndex];
+            document.getElementById('wallpaper').style.backgroundImage = `url('${wpUrl}')`;
+            updateWallpaperLabel();
+        };
+
+        function updateWallpaperLabel() {
+            const t = translations[lang];
+            const label = document.getElementById('btn-wallpapers-label');
+            label.innerText = `${t.btnWallpapers} ${currentWpIndex + 1}`;
+        }
+
+        window.adjustOpacity = () => {
+            currentWallpaperOpacity += 10;
+            if(currentWallpaperOpacity > 100) currentWallpaperOpacity = 0;
+            document.getElementById('wallpaper').style.opacity = currentWallpaperOpacity / 100;
+            updateOpacityUI();
+        };
+
+        function updateOpacityUI() {
+            const bar = document.getElementById('opacity-bar');
+            let html = '';
+            for(let i=1; i<=10; i++) {
+                const isActive = (i * 10) <= currentWallpaperOpacity;
+                html += `<div class="opacity-dot ${isActive ? 'active' : ''}"></div>`;
+            }
+            bar.innerHTML = html;
+        }
+
+        window.setLang = (l) => {
+            lang = l; const t = translations[l];
+            document.getElementById('tab-INICIO').innerText = t.tabInicio;
+            document.getElementById('tab-CARRETE').innerText = t.tabCarrete;
+            document.getElementById('tab-RECUERDOS').innerText = t.tabRecuerdos;
+            document.getElementById('label-married').innerText = t.labelMarried;
+            document.getElementById('label-gallery').innerText = t.labelGallery;
+            document.getElementById('label-dedication').innerText = t.labelDedication;
+            document.getElementById('dedication-text').innerText = t.dedication;
+            document.getElementById('dedication-footer').innerText = t.labelDedicationFooter;
+            updateWallpaperLabel();
+            const textEl = document.getElementById('view-mode-text');
+            textEl.innerText = t.btnMode + (viewMode === 'DESKTOP' ? t.pc : t.mobile);
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('text-[#ff89a2]'));
+            document.getElementById('btn-'+l.toLowerCase()).classList.add('text-[#ff89a2]');
+            initDate();
+        };
+
+        window.openStats = (e) => {
+            if (e) e.stopPropagation();
+            const list = document.getElementById('stats-list');
+            let html = '';
+            const sortedCountries = Object.keys(currentStats).filter(k => k !== 'total' && k !== 'UNKNOWN').sort((a, b) => currentStats[b] - currentStats[a]);
+            sortedCountries.forEach(code => {
+                const count = currentStats[code];
+                const flagUrl = `https://flagcdn.com/w80/${code.toLowerCase()}.png`;
+                html += `
+                    <div class="flex flex-col items-center justify-center bg-white/5 p-2 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
+                        <img src="${flagUrl}" class="w-8 h-auto rounded-[2px] shadow-sm mb-1" alt="${code}">
+                        <span class="text-[10px] font-black text-[#ff89a2]">${count}</span>
+                    </div>`;
+            });
+            list.innerHTML = html || '<p class="text-center text-xs text-gray-500 py-4 col-span-full">Sin datos.</p>';
+            document.getElementById('modal-stats').classList.remove('hidden');
+        };
+        window.closeStats = () => document.getElementById('modal-stats').classList.add('hidden');
+
+        window.togglePlay = (e) => { if (e) e.stopPropagation(); const a = document.getElementById('bg-audio'); if(a.paused) a.play(); else a.pause(); isPlaying = !a.paused; updateMusicUI(); };
+        function updateMusicUI() { const b = document.getElementById('play-btn'); b.innerHTML = isPlaying ? '<i data-lucide="pause" class="w-3.5 h-3.5 text-[#ff89a2] fill-[#ff89a2]"></i>' : '<i data-lucide="play" class="w-3.5 h-3.5 text-[#ff89a2] fill-[#ff89a2]"></i>'; lucide.createIcons(); }
+        
+        window.toggleCascade = () => {
+            showHeartsOverlay = !showHeartsOverlay;
+            const container = document.getElementById('heart-cascade-container');
+            const icon = document.getElementById('cascade-icon');
+            if(showHeartsOverlay) {
+                container.classList.remove('hidden');
+                container.innerHTML = '';
+                container.style.opacity = '1';
+                for(let i=0; i<35; i++) {
+                    const h = document.createElement('div');
+                    h.className = 'absolute animate-heart-cascade';
+                    h.style.left = Math.random() * 100 + '%';
+                    h.style.animationDelay = Math.random() * 5 + 's';
+                    h.style.animationDuration = (3 + Math.random() * 4) + 's';
+                    const color = Math.random() > 0.5 ? '#ff89a2' : '#ffffff';
+                    h.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="${color}" stroke="${color}"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.505 4.044 3 5.5L12 21l7-7Z"/></svg>`;
+                    container.appendChild(h);
+                }
+                icon.setAttribute('data-lucide', 'arrow-down');
+            } else {
+                container.style.opacity = '0';
+                icon.setAttribute('data-lucide', 'arrow-up');
+                setTimeout(() => { if(!showHeartsOverlay) container.classList.add('hidden'); }, 2000);
+            }
+            lucide.createIcons();
+        };
+
+        window.toggleViewMode = (e) => {
+            if (e) e.stopPropagation(); viewMode = viewMode === 'DESKTOP' ? 'MOBILE' : 'DESKTOP'; const w = document.getElementById('desktop-widgets'); const icon = document.getElementById('view-mode-icon');
+            if(viewMode === 'MOBILE') { w.classList.add('hidden'); icon.innerHTML = '<i data-lucide="smartphone" class="w-4 h-4"></i>'; }
+            else { w.classList.remove('hidden'); icon.innerHTML = '<i data-lucide="monitor" class="w-4 h-4"></i>'; }
+            const t = translations[lang]; document.getElementById('view-mode-text').innerText = t.btnMode + (viewMode === 'DESKTOP' ? t.pc : t.mobile); lucide.createIcons();
+        };
+
+        window.setTab = (tab) => {
+            activeTab = tab; document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-[#ff89a2]/70', 'text-white'); b.classList.add('text-gray-400'); });
+            document.getElementById('tab-'+tab).classList.remove('text-gray-400'); document.getElementById('tab-'+tab).classList.add('bg-[#ff89a2]/70', 'text-white');
+            document.getElementById('view-INICIO').classList.add('hidden'); document.getElementById('view-CARRETE').classList.add('hidden'); document.getElementById('view-RECUERDOS').classList.add('hidden'); document.getElementById('view-'+tab).classList.remove('hidden');
+        };
+
+        window.openLightbox = (img) => { document.getElementById('lightbox-img').src = img; document.getElementById('lightbox').classList.remove('hidden'); };
+        window.closeLightbox = () => document.getElementById('lightbox').classList.add('hidden');
+
+        function initDate() {
+            const t = translations[lang]; const now = new Date(); document.getElementById('cal-day').innerText = now.getDate(); document.getElementById('cal-month').innerText = t.months[now.getMonth()];
+            const start = new Date('2023-03-03'); document.getElementById('days-passed').innerText = `${Math.floor((now - start) / (1000 * 60 * 60 * 24))} ${t.days}`;
+            const d = now.getDate(); let nt = d < 3 ? new Date(now.getFullYear(), now.getMonth(), 3) : new Date(now.getFullYear(), now.getMonth()+1, 3);
+            let lt = d < 3 ? new Date(now.getFullYear(), now.getMonth()-1, 3) : new Date(now.getFullYear(), now.getMonth(), 3);
+            document.getElementById('fill-percent').innerText = Math.round(Math.max(0, Math.min(100, ((now - lt) / (nt - lt)) * 100))) + '%';
+            const left = Math.ceil((nt - now) / (1000 * 60 * 60 * 24)); document.getElementById('days-left-msg').innerText = left === 0 ? t.today : `${t.left}${left} d`;
+        }
+
+        function renderHeartRings() {
+            let h1 = '', h2 = '', h3 = '';
+            for(let i=0; i<8; i++){ 
+                h1 += `<div class="absolute" style="transform: rotate(${i*45}deg) translateY(-38px)"><i data-lucide="heart" class="w-2 h-2 text-[#ff89a2] fill-[#ff89a2]"></i></div>`; 
+                h2 += `<div class="absolute" style="transform: rotate(${i*45}deg) translateY(-38px)"><i data-lucide="heart" class="w-2 h-2 text-white fill-white opacity-80"></i></div>`; 
+                // Anillo con nuevo COLOR #a2ffe8
+                h3 += `<div class="absolute" style="transform: rotate(${i*45}deg) translateY(-34px)"><i data-lucide="heart" class="w-2 h-2 text-[#a2ffe8] fill-[#a2ffe8]"></i></div>`;
+            }
+            document.getElementById('heart-ring-1').innerHTML = h1; 
+            document.getElementById('heart-ring-2').innerHTML = h2;
+            document.getElementById('heart-ring-wallpapers').innerHTML = h3;
+            lucide.createIcons();
+        }
+
+        function startMusic() { const a = document.getElementById('bg-audio'); if(!isPlaying) { a.play().catch(()=>{}); isPlaying = true; updateMusicUI(); } window.removeEventListener('mousedown', startMusic); window.removeEventListener('touchstart', startMusic); }
+        function setupDrag() { const dragImg = document.getElementById('draggable-img'); let isDragging = false, startX, startY, curX = 0, curY = 0; dragImg.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX - curX; startY = e.clientY - curY; dragImg.style.cursor = 'grabbing'; }); window.addEventListener('mousemove', e => { if(!isDragging) return; curX = e.clientX - startX; curY = e.clientY - startY; dragImg.style.transform = `scale(1.2) translate(${curX/10}px, ${curY/10}px)`; }); window.addEventListener('mouseup', () => { isDragging = false; dragImg.style.cursor = 'grab'; }); }
+
+        async function initFirestore() {
+            if (!isFirebaseActive || !currentUser) return;
+            const country = await (async () => { try { const res = await fetch('https://get.geojs.io/v1/ip/country.json'); const data = await res.json(); return data.country || 'UNKNOWN'; } catch(e) { return 'UNKNOWN'; } })();
+            const vRef = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'visits_countries');
+            if (!sessionStorage.getItem('visited')) { await setDoc(vRef, { total: increment(1), [country]: increment(1) }, { merge: true }); sessionStorage.setItem('visited', 'true'); }
+            onSnapshot(vRef, (d) => { if(d.exists()) { currentStats = d.data(); document.getElementById('visits-count').innerText = currentStats.total || 0; } });
+        }
+
+        function renderGrids() {
+            document.getElementById('carrete-grid').innerHTML = galleryImages.map((img, i) => `<div class="rounded-3xl overflow-hidden cursor-pointer border border-white/5 group" onclick="openLightbox('${img}')"><img src="${img}" class="w-full h-auto transition-transform duration-1000 group-hover:scale-110"></div>`).join('');
+            document.getElementById('recuerdos-grid').innerHTML = recuerdosImages.map((img, i) => `<div class="flex flex-col items-center"><div class="rounded-3xl overflow-hidden border border-[#ff89a2]/30 cursor-pointer group" onclick="openLightbox('${img}')"><img src="${img}" class="w-full h-auto transition-transform duration-1000 group-hover:scale-105"></div></div>`).join('');
+        }
+        function createRipple(e) { const r = document.createElement('div'); r.className = 'ripple-ring'; r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; document.body.appendChild(r); setTimeout(() => r.remove(), 600); }
+    </script>
+</body>
+</html>
