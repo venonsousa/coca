@@ -182,10 +182,10 @@
         <div class="flex-1 flex flex-row gap-4 h-full items-end pb-2 overflow-hidden">
             <div class="flex-[1.8] flex flex-col items-center h-full min-w-0">
                 <div class="flex flex-col items-center w-full shrink-0">
-                    <h1 class="text-5xl md:text-6xl font-amore text-white tracking-widest mb-3 drop-shadow-[0_0_10px_rgba(255,137,162,0.3)] text-center">`Coquita~</h1>
+                    <h1 class="text-5xl md:text-6xl font-amore text-white tracking-widest mb-3 drop-shadow-[0_0_10px_rgba(255,137,162,0.3)] text-center">`iiCarvaozim~</h1>
                     <div class="z-[50] bg-[#111]/30 backdrop-blur-lg px-8 py-2.5 rounded-full flex items-center gap-10 border border-white/10 shadow-xl mb-6">
                         <button onclick="setTab('INICIO')" id="tab-INICIO" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all bg-[#ff89a2]/70 text-white uppercase">INICIO</button>
-                        <button onclick="setTab('CARRETE')" id="tab-CARRETE" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all text-gray-400 hover:text-white uppercase">CARRETE</button>
+                        <button onclick="setTab('ALBUM')" id="tab-ALBUM" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all text-gray-400 hover:text-white uppercase">ALBUM</button>
                         <button onclick="setTab('RECUERDOS')" id="tab-RECUERDOS" class="tab-btn px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.25em] transition-all text-gray-400 hover:text-white uppercase">RECUERDOS</button>
                     </div>
                 </div>
@@ -196,9 +196,9 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
                     </div>
 
-                    <div id="view-CARRETE" class="w-full h-full py-10 flex justify-center bg-[#0a0a0a]/50 hidden">
+                    <div id="view-ALBUM" class="w-full h-full py-10 flex justify-center bg-[#0a0a0a]/50 hidden">
                         <div class="w-[92%] h-full overflow-y-auto custom-scrollbar pr-4">
-                            <div class="columns-3 gap-6 space-y-6 pb-6" id="carrete-grid"></div>
+                            <div class="columns-3 gap-6 space-y-6 pb-6" id="ALBUM-grid"></div>
                         </div>
                     </div>
 
@@ -295,17 +295,17 @@
 
         const translations = {
             ES: {
-                tabInicio: "INICIO", tabCarrete: "CARRETE", tabRecuerdos: "RECUERDOS",
+                tabInicio: "INICIO", tabALBUM: "ALBUM", tabRecuerdos: "RECUERDOS",
                 labelMarried: "Married", labelGallery: "Galería", labelDedication: "Dedicatoria",
-                labelDedicationFooter: "Atte: Tu Takito ♡", btnWallpapers: "Wallpapers", btnMode: "Modo: ", pc: "PC", mobile: "Móvil",
+                labelDedicationFooter: "venon ♡", btnWallpapers: "Wallpapers", btnMode: "Modo: ", pc: "PC", mobile: "Móvil",
                 days: "DÍAS", loading: "Cargando...", today: "¡Hoy es el 03!", left: "Faltan ",
-                months: ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'],
-                dedication: `Hola mi amoooooor, la verdad es que moría por hacerte saber una vez más cuan importante eres para mí asi que voy a ser honesto contigo: no sé en qué momento te volviste tan importante para mí. Según yo todo iba tranquilo, normal… y de repente ya ando pensando en ti a cada rato, sonriendo como tonto cuando me acuerdo de algo que dijiste, y hasta extrañándote aunque hayan pasado cinco minutos.\n\nLa neta es que tienes algo peligroso… porque no solo me gustas, me encantas en todos los sentidos. Me gusta tu forma de ser, tu risa, tu manera de hablar… y también cómo, sin hacer mucho, logras provocarme más de lo que debería admitir… y más cuando andas en tu modo Coquita, porque ahí sí ya valí.\n\nContigo todo se siente diferente. Puedes hacer que un día normal se vuelva especial, o que yo esté de malas y en dos minutos ya me tengas riendo otra vez. Aunque también hay que decirlo… tienes un talento especial para dejarme pensando cosas que mejor ni digo en voz alta, porque luego me exhibo solo… y peor tantito cuando se me antojan tus besos como si fueran mis Takis favoritos.\n\nY sí, puede que a veces me haga el interesante… pero la verdad es que contigo se me cae todo el teatro. Me tienes bien ganado. Eres ese tipo de persona que no solo quiero para pasar el rato… sino para quedarme, para seguir compartiendo momentos, risas, y también uno que otro beso robado (o varios, si me dejas).\n\nGracias por ser tú, por aguantarme, por hacerme sentir así… y por convertirte, sin pedir permiso, en una de mis partes favoritas del día.\n\nY solo para que te quede claro… si te sigo molestando, es porque me encantas. Y si te sigo buscando… es porque contigo siempre quiero un poquito más… aunque eso incluya invitarte una Coquita y unos Takis solo para tener pretexto de verte. 🩷💚`
+                months: ['ENE','FEV','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DEZ'],
+                dedication: `  🩷💚VENON`
             },
             EN: {
-                tabInicio: "HOME", tabCarrete: "REEL", tabRecuerdos: "MEMORIES",
+                tabInicio: "HOME", tabALBUM: "REEL", tabRecuerdos: "MEMORIES",
                 labelMarried: "Married", labelGallery: "Gallery", labelDedication: "Dedication",
-                labelDedicationFooter: "By: Your Takito ♡", btnWallpapers: "Wallpapers", btnMode: "Mode: ", pc: "PC", mobile: "Mobile",
+                labelDedicationFooter: "iiCarvaozim ♡", btnWallpapers: "Wallpapers", btnMode: "Mode: ", pc: "PC", mobile: "Mobile",
                 days: "DAYS", loading: "Loading...", today: "Today is the 3rd!", left: "Left: ",
                 months: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
                 dedication: `Hello my love, honestly I was dying to let you know once again how important you are to me...`
@@ -393,7 +393,7 @@
         window.setLang = (l) => {
             lang = l; const t = translations[l];
             document.getElementById('tab-INICIO').innerText = t.tabInicio;
-            document.getElementById('tab-CARRETE').innerText = t.tabCarrete;
+            document.getElementById('tab-ALBUM').innerText = t.tabALBUM;
             document.getElementById('tab-RECUERDOS').innerText = t.tabRecuerdos;
             document.getElementById('label-married').innerText = t.labelMarried;
             document.getElementById('label-gallery').innerText = t.labelGallery;
@@ -467,7 +467,7 @@
         window.setTab = (tab) => {
             activeTab = tab; document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-[#ff89a2]/70', 'text-white'); b.classList.add('text-gray-400'); });
             document.getElementById('tab-'+tab).classList.remove('text-gray-400'); document.getElementById('tab-'+tab).classList.add('bg-[#ff89a2]/70', 'text-white');
-            document.getElementById('view-INICIO').classList.add('hidden'); document.getElementById('view-CARRETE').classList.add('hidden'); document.getElementById('view-RECUERDOS').classList.add('hidden'); document.getElementById('view-'+tab).classList.remove('hidden');
+            document.getElementById('view-INICIO').classList.add('hidden'); document.getElementById('view-ALBUM').classList.add('hidden'); document.getElementById('view-RECUERDOS').classList.add('hidden'); document.getElementById('view-'+tab).classList.remove('hidden');
         };
 
         window.openLightbox = (img) => { document.getElementById('lightbox-img').src = img; document.getElementById('lightbox').classList.remove('hidden'); };
@@ -508,7 +508,7 @@
         }
 
         function renderGrids() {
-            document.getElementById('carrete-grid').innerHTML = galleryImages.map((img, i) => `<div class="rounded-3xl overflow-hidden cursor-pointer border border-white/5 group" onclick="openLightbox('${img}')"><img src="${img}" class="w-full h-auto transition-transform duration-1000 group-hover:scale-110"></div>`).join('');
+            document.getElementById('ALBUM-grid').innerHTML = galleryImages.map((img, i) => `<div class="rounded-3xl overflow-hidden cursor-pointer border border-white/5 group" onclick="openLightbox('${img}')"><img src="${img}" class="w-full h-auto transition-transform duration-1000 group-hover:scale-110"></div>`).join('');
             document.getElementById('recuerdos-grid').innerHTML = recuerdosImages.map((img, i) => `<div class="flex flex-col items-center"><div class="rounded-3xl overflow-hidden border border-[#ff89a2]/30 cursor-pointer group" onclick="openLightbox('${img}')"><img src="${img}" class="w-full h-auto transition-transform duration-1000 group-hover:scale-105"></div></div>`).join('');
         }
         function createRipple(e) { const r = document.createElement('div'); r.className = 'ripple-ring'; r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; document.body.appendChild(r); setTimeout(() => r.remove(), 600); }
