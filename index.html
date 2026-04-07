@@ -98,8 +98,8 @@
         
         <!-- WIDGETS IZQUIERDA -->
         <div class="flex flex-col items-center gap-3 w-[80px] h-full shrink-0 justify-end pb-8">
-            <!-- Foto Married Decorativa -->
-            <div id="ring-married-decor" class="w-20 h-20 relative flex items-center justify-center mb-1 group">
+            <!-- Foto BFF Decorativa -->
+            <div id="ring-BFF-decor" class="w-20 h-20 relative flex items-center justify-center mb-1 group">
                 <div class="absolute inset-0 flex items-center justify-center animate-spin-slow pointer-events-none">
                    <div id="heart-ring-1" class="relative w-full h-full flex items-center justify-center"></div>
                 </div>
@@ -120,10 +120,10 @@
 
             <div class="w-full py-4 bg-[#111]/30 backdrop-blur-md rounded-full flex flex-col items-center gap-4 border border-white/5 shadow-2xl">
                 <div class="flex flex-col gap-3 items-center">
-                    <!-- Label Married con Link -->
+                    <!-- Label BFF con Link -->
                     <div onclick="window.open('https://xat.me/iiCarvaozim', '_blank')" class="flex flex-col items-center group cursor-pointer">
                         <i data-lucide="heart" class="w-4 h-4 fill-white hover:scale-110 transition-transform animate-breathing"></i>
-                        <span id="label-married" class="text-[7px] font-bold text-[#ff89a2] uppercase mt-1">BFF</span>
+                        <span id="label-BFF" class="text-[7px] font-bold text-[#ff89a2] uppercase mt-1">BFF</span>
                     </div>
                     <!-- Label Galería con Link -->
                     <div onclick="window.open('https://www.flickr.com/photos/takisdesign/', '_blank')" class="flex flex-col items-center group cursor-pointer">
@@ -296,7 +296,7 @@
         const translations = {
             ES: {
                 tabInicio: "INICIO", tabALBUM: "ALBUM", tabRecuerdos: "Print",
-                labelMarried: "Married", labelGallery: "Galería", labelDedication: "Dedicatoria",
+                labelBFF: "BFF", labelGallery: "Galería", labelDedication: "Dedicatoria",
                 labelDedicationFooter: "venon ♡", btnWallpapers: "Wallpapers", btnMode: "Modo: ", pc: "PC", mobile: "Móvil",
                 days: "DÍAS", loading: "Cargando...", today: "¡Hoy es el 03!", left: "Faltan ",
                 months: ['ENE','FEV','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DEZ'],
@@ -304,7 +304,7 @@
             },
             EN: {
                 tabInicio: "HOME", tabALBUM: "REEL", tabRecuerdos: "MEMORIES",
-                labelMarried: "Married", labelGallery: "Gallery", labelDedication: "Dedication",
+                labelBFF: "BFF", labelGallery: "Gallery", labelDedication: "Dedication",
                 labelDedicationFooter: "iiCarvaozim ♡", btnWallpapers: "Wallpapers", btnMode: "Mode: ", pc: "PC", mobile: "Mobile",
                 days: "DAYS", loading: "Loading...", today: "Today is the 3rd!", left: "Left: ",
                 months: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
@@ -395,7 +395,7 @@
             document.getElementById('tab-INICIO').innerText = t.tabInicio;
             document.getElementById('tab-ALBUM').innerText = t.tabALBUM;
             document.getElementById('tab-RECUERDOS').innerText = t.tabRecuerdos;
-            document.getElementById('label-married').innerText = t.labelMarried;
+            document.getElementById('label-BFF').innerText = t.labelBFF;
             document.getElementById('label-gallery').innerText = t.labelGallery;
             document.getElementById('label-dedication').innerText = t.labelDedication;
             document.getElementById('dedication-text').innerText = t.dedication;
